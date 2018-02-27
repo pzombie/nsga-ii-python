@@ -281,4 +281,5 @@ class NSGAII:
             front[len(front) - 1].distance = float('inf')
             
             for i in range(1, len(front) - 1):
-                front[i].distance += (front[i + 1].distance - front[i - 1].distance)
+                front[i].distance += ((front[i + 1].objectives[obj_index]  - front[i - 1].objectives[obj_index] )
+                                     / (front[len(front) - 1].objectives[obj_index] - front[0].objectives[obj_index]))
