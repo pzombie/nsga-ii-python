@@ -21,7 +21,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-import sys, random
+import random
 
 class Solution:
     '''
@@ -37,7 +37,7 @@ class Solution:
         for _ in range(num_objectives):
             self.objectives.append(None)
         self.attributes = []
-        self.rank = sys.maxint
+        self.rank = float('inf')
         self.distance = 0.0
         
     def evaluate_solution(self):
@@ -126,7 +126,7 @@ class NSGAII:
         Q = []
         
         for i in range(num_generations):
-            print "Iteracao ", i
+            print("Iteration ", i)
              
             R = []
             R.extend(P)
