@@ -24,9 +24,9 @@ import random, math
 from nsga2 import Solution
 from nsga2 import NSGAII
 
-class T1Solution(Solution):
+class ZDT1Solution(Solution):
     '''
-    Solution for the T1 function.
+    Solution for the ZDT1 function.
     '''
     def __init__(self):
         '''
@@ -44,12 +44,12 @@ class T1Solution(Solution):
         
     def evaluate_solution(self):
         '''
-        Implementation of method evaluate_solution() for T1 function.
+        Implementation of method evaluate_solution() for ZDT1 function.
         '''
         self.objectives[0] = self.attributes[0]
         
         sum = 0.0
-        for i in range(30):
+        for i in range(1, 30):
             sum += self.attributes[i]
             
         g = 1.0 + (9.0 * (sum / 29))
@@ -58,9 +58,9 @@ class T1Solution(Solution):
         
     def crossover(self, other):
         '''
-        Crossover of T1 solutions.
+        Crossover of ZDT1 solutions.
         '''
-        child_solution = T1Solution()
+        child_solution = ZDT1Solution()
         
         for i in range(30):
             child_solution.attributes[i] = math.sqrt(self.attributes[i] * other.attributes[i])
@@ -69,7 +69,7 @@ class T1Solution(Solution):
     
     def mutate(self):
         '''
-        Mutation of T1 solution.
+        Mutation of ZDT1 solution.
         '''
         self.attributes[random.randint(0, 29)] = random.random()
 
@@ -79,7 +79,7 @@ if __name__ == '__main__':
     
     P = []
     for i in range(500):
-        P.append(T1Solution())
+        P.append(ZDT1Solution())
     
     nsga2.run(P, 50, 20)
     
