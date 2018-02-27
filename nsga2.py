@@ -115,43 +115,49 @@ class NSGAII:
         self.crossover_rate = crossover_rate
         
         random.seed();
-        
-    def run(self, P, population_size, num_generations):
+
+    def initialise(self, P):
         '''
-        Run NSGA-II. 
+        Initialise NSGA-II.
         '''
         for s in P:
             s.evaluate_solution()
-        
+
         Q = []
-        
-        for i in range(num_generations):
-            print("Iteration ", i)
+
+        return Q
+
+    def generate(self, P, Q, population_size, num_generations):
+        '''
+        Run a single generation of NSGA-II.
+        '''
              
-            R = []
-            R.extend(P)
-            R.extend(Q)
+        R = []
+        R.extend(P)
+        R.extend(Q)
+        
+        fronts = self.fast_nondominated_sort(R)
+        
+        del P[:]
+        
+        for front in fronts.values():
+            if len(front) == 0:
+                break
             
-            fronts = self.fast_nondominated_sort(R)
+            self.crowding_distance_assignment(front);
+            P.extend(front)
             
-            del P[:]
+            if len(P) >= population_size:
+                break
+        
+        self.sort_crowding(P)
+        
+        if len(P) > population_size:
+            del P[population_size:]
             
-            for front in fronts.values():
-                if len(front) == 0:
-                    break
-                
-                self.crowding_distance_assignment(front);
-                P.extend(front)
-                
-                if len(P) >= population_size:
-                    break
-            
-            self.sort_crowding(P)
-            
-            if len(P) > population_size:
-                del P[population_size:]
-                
-            Q = self.make_new_pop(P)
+        Q = self.make_new_pop(P)
+
+        return P, Q
             
     def sort_ranking(self, P):
         for i in range(len(P) - 1, -1, -1):
