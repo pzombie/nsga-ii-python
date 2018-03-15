@@ -212,14 +212,19 @@ class NSGAII:
                         selected_solutions[i] = s2
             
             if random.random() < self.crossover_rate:
-                child_solution = selected_solutions[0].crossover(selected_solutions[1])
+                child_solution_1, child_solution_2 = selected_solutions[0].crossover(selected_solutions[1])
                 
                 if random.random() < self.mutation_rate:
-                    child_solution.mutate()
+                    child_solution_1.mutate()
+
+                if random.random() < self.mutation_rate:
+                    child_solution_2.mutate()
                     
-                child_solution.evaluate_solution()
+                child_solution_1.evaluate_solution()
+                child_solution_2.evaluate_solution()
                 
-                Q.append(child_solution)
+                Q.append(child_solution_1)
+                Q.append(child_solution_2)
         
         return Q
         
